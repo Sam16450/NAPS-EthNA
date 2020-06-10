@@ -1,4 +1,4 @@
-Abstract—Off-chain channel networks are one of the most
+Off-chain channel networks are one of the most
 promising technologies for dealing with blockchain scalability
 and delayed finality issues. Parties that are connected within
 such networks can send coins to each other without interacting
