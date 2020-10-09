@@ -3,26 +3,40 @@ library(e1071)
 library(optimbase)
 
 ##########################
+
+### list of transactions taken from input, each transactions has id, source, destination, value and times t0, which states in which round
+### the transaction should be initialized and tEnd - last round in which transaction must end.
+
 listOfTransactions <- data.frame(id=integer(), source=integer(), destination=integer(), value=integer(),
                                  t0=integer(), tEnd=integer())
 currentTransactions<-data.frame(listOfTransactions, parent=integer(),waiting= logical(),realized = numeric(),
                              arity = integer(), Id0 = numeric(), done = logical())
 realizedTransactions <- data.frame(listOfTransactions, vmax=numeric())
+
+### parameters used in simulation
+
 nrounds <- 100
-graphThroughput 
 max_length <- 50
+
+### graphThroughput  is a graph of all channels with throughput
+### locked is matrix of temporarily blocked channels
+### 
+
 locked=matrix(0,nrow = nrow(graphThroughput),ncol = nrow(graphThroughput))
 locked_prev<-locked
-
 T=0
+
+### 
+### 
+
 for (n in (1:nrounds)){
   T=T+1
-  currentTransactions<-addTrans2(Transakcje[Transakcje$t0==T,],0,lista=currentTransactions)
+  currentTransactions<-addTrans2(listOfTransactions[listOfTransactions$t0==T,],0,lista=currentTransactions)
   temporaryTransactions <- currentTransactions[currentTransactions$t0<=T & currentTransactions$done == 0 & currentTransactions$tEnd>T& (((currentTransactions$value-currentTransactions$blocked-currentTransactions$realized)>0.001)|currentTransactions$blocked<0.001),]
   temporaryTransactions <- rbind(temporaryTransactions,currentTransactions[currentTransactions$tEnd==T & currentTransactions$done == 0,])
   while (nrow(temporaryTransactions)==0) {
     T=T+1
-    currentTransactions<-addTrans2(Transakcje[Transakcje$t0==T,],0,lista=currentTransactions)
+    currentTransactions<-addTrans2(listOfTransactions[listOfTransactions$t0==T,],0,lista=currentTransactions)
     temporaryTransactions <- currentTransactions[currentTransactions$t0<=T & currentTransactions$done == 0 & currentTransactions$tEnd>=T& (((currentTransactions$value-currentTransactions$blocked-currentTransactions$realized)>0.001)|currentTransactions$blocked<0.001),]
   }
   if(all.equal(locked_prev,locked)!=1){ #creating structure needed for Dijkstra algorithm 
