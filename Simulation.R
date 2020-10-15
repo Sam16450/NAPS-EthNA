@@ -1,11 +1,18 @@
+zamiana Transakcje na listOfTransactions
+
+
+
+
+----------------------------------------------
+
 library(cppRouting)
 library(e1071)
 library(optimbase)
 
 ##########################
 
-### list of transactions taken from input, each transactions has id, source, destination, value and times t0, which states in which round
-### the transaction should be initialized and tEnd - last round in which transaction must end.
+#list of transactions taken from input, each transactions has id, source, destination, value and times t0, which states in which round
+#the transaction should be initialized and tEnd - last round in which transaction must end.
 
 listOfTransactions <- data.frame(id=integer(), source=integer(), destination=integer(), value=integer(),
                                  t0=integer(), tEnd=integer())
@@ -13,21 +20,20 @@ currentTransactions<-data.frame(listOfTransactions, parent=integer(),waiting= lo
                              arity = integer(), Id0 = numeric(), done = logical())
 realizedTransactions <- data.frame(listOfTransactions, vmax=numeric())
 
-### parameters used in simulation
+#parameters used in simulation
 
 nrounds <- 100
 max_length <- 50
 
-### graphThroughput  is a graph of all channels with throughput
-### locked is matrix of temporarily blocked channels
-### 
+#graphThroughput  is a graph of all channels with throughput
+#locked is matrix of temporarily blocked channels
+
 
 locked=matrix(0,nrow = nrow(graphThroughput),ncol = nrow(graphThroughput))
 locked_prev<-locked
 T=0
 
-### 
-### 
+#protocol is working in rounds
 
 for (n in (1:nrounds)){
   T=T+1
@@ -57,7 +63,7 @@ for (n in (1:nrounds)){
       tEnd <- temporaryTransactions[i,]$tEnd
       id0 <- temporaryTransactions[i,]$id0
       blocked <- temporaryTransactions[i,]$blocked
-      temp_directed_graph <- directed_graph} #
+      temp_directed_graph <- directed_graph} 
       
       if(source == destination){
         currentTransactions[parent,]$realized <- value + currentTransactions[parent,]$realized
@@ -100,7 +106,8 @@ for (n in (1:nrounds)){
       pp = get_path_pair(Graph=directed_graph,from = source,
                          to = destination)[[1]]
       neigh <-as.numeric(pp[length(pp)-1])
-      if(length(pp)<max_length){
+	  #searching for through all different paths to recipient, that have length smaller than max_length
+      if(length(pp)<max_length){ 
         while(length(pp)==len_min_path){
           neigh <-as.numeric(pp[length(pp)-1])
           if(graphThroughput[source,neigh]==0){
@@ -123,8 +130,8 @@ for (n in (1:nrounds)){
       #distribution in channels
       if(j==1){#there is no available path
         if(parent==0){
-          
-        } else {
+          #nothing happens
+        } else { #get back one step along the path
           currentTransactions[parent,]$arity <- currentTransactions[parent,]$arity - 1
           currentTransactions[parent,]$blocked <- currentTransactions[parent,]$blocked - (realized+blocked)
           currentTransactions[id,]$done <- 1
