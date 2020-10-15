@@ -1,10 +1,3 @@
-zamiana Transakcje na listOfTransactions
-
-
-
-
-----------------------------------------------
-
 library(cppRouting)
 library(e1071)
 library(optimbase)
