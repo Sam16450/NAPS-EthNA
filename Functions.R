@@ -12,7 +12,7 @@ addTrans2 <- function(d,parent,lista){
   d$id=c(1:nrow(d))+nrow(lista) 
   d$parent = parent
   d$blocked = 0 #coins blocked
-  d$realized = 0#blocked+realized +waiting= value
+  d$realized = 0 #blocked+realized +waiting= value
   d$waiting = 0
   d$arrity = 0
   d$done = 0
