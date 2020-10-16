@@ -20,4 +20,4 @@ this definition. ETHNA is based on very simple and efficient
 cryptographic tools, and in particular does not use any expensive
 cryptographic primitives. We implement a simple variant of
 ETHNA in Solidity and provide some benchmarks. We also report
-on some experiments with routing using ETHNA.
+on some experiments with routing using ETHNA - code is presented in simulation.
