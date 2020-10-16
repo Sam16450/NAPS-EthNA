@@ -72,7 +72,7 @@ contract ethna{
         }
     }
 
-    /// recipient can present proof of cheating by Pn at k
+    /// recipient can present proof of cheating by Pn at k-th channel on path
     function addCheatingProof(
         uint idTrans, 
         address[] memory _a,
