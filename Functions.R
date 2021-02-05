@@ -1,10 +1,10 @@
 addTrans <- function(from, to, v, tstart, tfinal, parent, lista){
-  df<-data.frame(nrow(lista)+1,from, to, v, tstart, tfinal, parent)
-  names(df)<-c("id","source","destination","value","t0","tEnd", "parent")
+  df<-data.frame(nrow(lista)+1, from, to, v, tstart, tfinal, parent)
+  names(df)<-c("id", "source", "destination", "value", "t0", "tEnd", "parent")
   return(rbind(lista, df))
 }
 
-addTrans2 <- function(d,parent,lista){
+addTrans2 <- function(d, parent, lista){
   if(nrow(d)==0){
     return(lista)
   }
@@ -16,18 +16,18 @@ addTrans2 <- function(d,parent,lista){
   d$waiting = 0
   d$arrity = 0
   d$done = 0
-  names(d)<-c("id","source","destination","value","t0",
-              "tEnd","id0", "parent", "blocked", "realized",
+  names(d)<-c("id", "source", "destination", "value", "t0",
+              "tEnd", "id0", "parent", "blocked", "realized",
               "waiting", "arrity", "done")
   return(rbind(lista, d))
 }
 
-addTrans9 <- function(df,lista){
-  names(df)<-c("id","source","destination","value","t0","tEnd","vmax")
+addTrans9 <- function(df, lista){
+  names(df)<-c("id", "source", "destination", "value", "t0", "tEnd", "vmax")
   return(rbind(lista, df))
 }
 
-updateChannel <- function(g,i,j,value){
+updateChannel <- function(g, i, j, value){
   gg <- g
   gg[i,j] <- gg[i,j] - value
   gg[j,i] <- gg[j,i] + value
