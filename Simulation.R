@@ -42,8 +42,8 @@ for (n in (1:nrounds)){
     g2 <- (graph1*(graph1>locked))
     graphThroughput <- graphThroughput*g2
     edges=ee(g2)
-    directed_graph<-makegraph(edges,directed=TRUE)
-    nodes<-unique(c(edges$from_vertex,edges$to_vertex))
+    directed_graph<-makegraph(edges, directed=TRUE)
+    nodes<-unique(c(edges$from_vertex, edges$to_vertex))
     locked_prev<-locked}
     for (i in 1:nrow(temporaryTransactions)){#
       {id <- temporaryTransactions[i,]$id
@@ -73,9 +73,9 @@ for (n in (1:nrounds)){
           currentTransactions[id,]$done <- 1
           }
       } else if(temporaryTransactions[i,]$tEnd == T){
-        graphThroughput <- updateChannel(graphThroughput,source,destination,realized-value)
+        graphThroughput <- updateChannel(graphThroughput, source, destination, realized-value)
         if(parent==0){
-          realizedTransactions <- addTrans3(temporaryTransactions[i,c(7,2,3,10,5,6,4)],realizedTransactions)
+          realizedTransactions <- addTrans3(temporaryTransactions[i,c(7,2,3,10,5,6,4)], realizedTransactions)
           currentTransactions[id,]$done <- 1
         } else {
           currentTransactions[parent,]$realized <- realized + currentTransactions[parent,]$realized
@@ -85,18 +85,18 @@ for (n in (1:nrounds)){
       } else if ((source %in% nodes) != 1|(destination %in% nodes) != 1){
         
         currentTransactions[parent,]$blocked <- currentTransactions[parent,]$blocked - (blocked+realized)
-        locked[currentTransactions[parent,]$source,source] <- 1
-        } else if (is.na(get_distance_pair(Graph=directed_graph,from = source,
+        locked[currentTransactions[parent,]$source, source] <- 1
+        } else if (is.na(get_distance_pair(Graph=directed_graph, from = source,
                                        to = destination))==1){
         currentTransactions[parent,]$blocked <- currentTransactions[parent,]$blocked - (blocked+realized)
-        locked[currentTransactions[parent,]$source,source] <- 11
+        locked[currentTransactions[parent,]$source, source] <- 11
       } else { len_min_path = length(get_path_pair(Graph=directed_graph,from = source,
                                                    to = destination)[[1]])
       #list of available paths with different first intermediary
       values_paths=numeric()
       neigh_paths <- numeric()
       j=1
-      pp = get_path_pair(Graph=directed_graph,from = source,
+      pp = get_path_pair(Graph=directed_graph, from = source,
                          to = destination)[[1]]
       neigh <-as.numeric(pp[length(pp)-1])
 	  #searching for through all different paths to recipient, that have length smaller than max_length
@@ -113,9 +113,9 @@ for (n in (1:nrounds)){
           temp_nodes<-unique(c(temp_edges$from_vertex,temp_edges$to_vertex))
           if((source %in% temp_nodes) != 1|(destination %in% temp_nodes) != 1){
             length(pp) <- 100  
-          } else if(is.na(get_distance_pair(Graph=temp_directed_graph,from = source,
+          } else if(is.na(get_distance_pair(Graph=temp_directed_graph, from = source,
                                             to = destination))!=1){
-            pp = get_path_pair(Graph=temp_directed_graph,from = source,
+            pp = get_path_pair(Graph=temp_directed_graph, from = source,
                                to = destination)[[1]]  
           } else {length(pp) <- 100}          
         }
@@ -134,16 +134,16 @@ for (n in (1:nrounds)){
         #capacities are greater than value
         if(sum(values_paths)>=value-(blocked+realized)){
           for(i in 1:length(neigh_paths)){
-            currentTransactions <- addTrans3(neigh_paths[i],destination,(values_paths[i]/sum(values_paths))*(value-(blocked+realized)),
+            currentTransactions <- addTrans3(neigh_paths[i], destination, (values_paths[i]/sum(values_paths))*(value-(blocked+realized)),
                                           T+1, tEnd-1, id0, id, currentTransactions)
-            graphThroughput <- updateChannel(graphThroughput,source,neigh_paths[i],(values_paths[i]/sum(values_paths))*(value-(blocked+realized)))
+            graphThroughput <- updateChannel(graphThroughput, source, neigh_paths[i], (values_paths[i]/sum(values_paths))*(value-(blocked+realized)))
           }
         } else {
           #capacities are smaller than transaction value
           for(k in 1:length(neigh_paths)){
-            currentTransactions <- addTrans3(neigh_paths[k],destination,values_paths[k],
+            currentTransactions <- addTrans3(neigh_paths[k], destination,values_paths[k],
                                           T+1, tEnd-1, id0, id, currentTransactions)
-            graphThroughput <- updateChannel(graphThroughput,source,neigh_paths[k],values_paths[k])
+            graphThroughput <- updateChannel(graphThroughput, source, neigh_paths[k], values_paths[k])
             locked[source, neigh_paths[k]] <- 1
           }
         }
