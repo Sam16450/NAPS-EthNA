@@ -6,6 +6,7 @@ with the blockchain. Moreover, these payments can be “routed”
 over the network. Thanks to this, even the parties that do not
 have a channel in common can perform payments between each
 other with the help of intermediaries.
+
 In this paper, we introduce a new notion that we call
 Non-Atomic Payment Splitting (NAPS) protocols that allow the
 intermediaries in the network to split the payments recursively
