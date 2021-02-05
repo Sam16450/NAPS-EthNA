@@ -7,7 +7,7 @@ contract ethna{
     uint[][] internal values; // Values in path
     uint public value; // current balance of contract
     address[][] internal addresses;
-    uint public maxProofSize;
+    uint public maxProofSize; // arity
     uint public maxPathLength;
     uint id; // id of latest state
 
